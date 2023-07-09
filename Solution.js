@@ -70,3 +70,25 @@ function isPangram(string){
     return alphabet.length === 26;
 }
 
+//queue simulator (The Supermarket Queue, 6 kyu)
+function queueTime(customers, n) {
+    if(customers.length == 0){
+        return 0;
+    }
+    let time = 0;
+    let check = [];
+    //fill all checkouts
+    while (customers.length > 0 && check.length < n){
+        check.push(customers.shift());
+    }
+    while (customers.length != 0){
+        for (let i = 0; i < n; i++) {
+            check[i]--;
+            if (check[i] === 0 && customers.length != 0){
+                check[i]+=customers.shift();
+            }
+        }
+        time++;
+    }
+    return time + check.reduce((a, b) => Math.max(a, b), -Infinity);
+}

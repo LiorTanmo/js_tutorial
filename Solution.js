@@ -103,7 +103,7 @@ function inttorom(num) {
     volc.set(1000, "M");
     let order = 1000;
     let romnum = "";
-    while (num != 0) {
+    while (num !== 0) {
         //handles numbers that satisfy the condition x % (5 * 10^n) = 4 * 10^n + eps, eps<10^n. It adds 10^n
         //to input number to write numbers like 900 or 40
         if (num % (5 * order) >= 4 * order) {

@@ -1,7 +1,7 @@
 // 7 kyu Is this a triangle?
 function isTriangle(a,b,c)
 {
-    return (a + b > c && a + c > b && b+c > a) ? true : false;
+    return (a + b > c && a + c > b && b+c > a);
 }
 
 //6 kyu
@@ -28,7 +28,7 @@ function towerBuilder(nFloors) {
 //7 kyu
 function isPalindrome(x) {
     // your code here
-    return x.toUpperCase() == [...x.toUpperCase()].reverse().join("") ? true : false;
+    return x.toUpperCase() === [...x.toUpperCase()].reverse().join("");
 }
 
 //6 kyu

@@ -36,7 +36,37 @@ function arrayDiff(a, b) {
     return a.filter(fv => b.indexOf(fv) === -1);
 }
 
+//6 kyu
+function isPrime(num) {
+    if (Math.abs(num) < 2){
+        return false;
+    }
+    let max = Math.sqrt(Math.abs(num));
+    for (let i = 2; i <= max; i++) {
+        if (num % i === 0) {
+            return false;
+        }
+    }
+    return true;
+}
 
-let a = [1,2];
-let b = [1];
-console.log(arrayDiff(a,b))
+
+//6kyu
+function isPangram(string){
+    if (string.length < 26){
+        return false;
+    }
+    let alphabet = [];
+    string = string.toLowerCase().replaceAll(/[^a-z]/g, "").split("");
+    while(alphabet.length < 26 && string.length !== 0){
+        if (alphabet.indexOf(string[0]) === -1){
+            alphabet.push(string.shift());
+            console.log(typeof string[0]);
+            console.log(typeof alphabet[0]);
+        } else {
+            string.shift();
+        }
+    }
+    return alphabet.length === 26;
+}
+

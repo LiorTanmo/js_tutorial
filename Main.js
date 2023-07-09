@@ -127,3 +127,14 @@ function toCamelCase(str){
         return x.charAt(1).toUpperCase();
     });
 }
+
+//example of "very clear solution"
+
+function uniqueInOrder(iterable){
+    return typeof iterable[0] == "string" ?
+        iterable.toString().replaceAll(",", "").replaceAll(/(.)\1+/g, function (x){return x.charAt(0);}).split("")
+       : iterable.toString().replaceAll(",", "").replaceAll(/(.)\1+/g, function (x){return x.charAt(0);}).split("").map(Number);
+}
+
+
+

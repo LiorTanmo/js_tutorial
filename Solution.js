@@ -91,6 +91,7 @@ function queueTime(customers, n) {
     return time + check.reduce((a, b) => Math.max(a, b), -Infinity);
 }
 
+//int to roman converted from Java, 6 kyu
 function inttorom(num) {
     let volc = new Map;
     volc.set(0, "");
@@ -124,4 +125,120 @@ function inttorom(num) {
     return romnum;
 }
 
-let i = inttorom(1213);
+//6 kyu
+function breakCamelCase(string) {
+    return string.replaceAll(/[A-Z]/g, x => " " + x);
+}
+
+//6 kyu
+function countBits(n) {
+    // Program Me
+    return n.toString(2).replaceAll('0', "").length;
+};
+
+
+function humanReadable(seconds) {
+    return (10 > Math.floor(seconds / 3600) ? "0" + Math.floor(seconds / 3600) : Math.floor(seconds / 3600)) + ":"
+        + (10 > Math.floor((seconds % 3600) / 60) ? "0" + Math.floor((seconds % 3600) / 60) : Math.floor((seconds % 3600) / 60)) + ":"
+        + (10 > seconds % 60 ? "0" + seconds % 60 : seconds % 60);
+}
+
+//4 kyu
+function sumIntervals(intervals) {
+    if (intervals.length === 0) {
+        return 0;
+    }
+    let sum = 0;
+    intervals = intervals.sort(function (a, b) {
+        if (a[0] === b[0]) {
+            return b[1] - a[1];
+        }
+        return a[0] - b[0];
+    });
+    let max = intervals[0][1];
+    sum += intervals[0][1] - intervals[0][0];
+    for (let i = 1; i < intervals.length; i++) {
+        if (intervals[i][1] > max) {
+            sum += intervals[i][0] < max ? intervals[i][1] - max : intervals[i][1] - intervals[i][0];
+            max = intervals[i][1];
+        }
+    }
+    return sum;
+}
+
+function lastDigit(str1, str2) {
+    if (parseInt(str1) == 0 || parseInt(str2) == 0) {
+        return parseInt(str1) == 0 ? 0 : 1;
+    }
+    let pow = 0;
+    let x = parseInt(str1.charAt(str1.length - 1));
+    for (let i = 0; i < str2.length; i++) {
+        pow = (pow * 10 + parseInt(str2[i])) % 4;
+    }
+    let cycle2 = [6, 2, 4, 8];
+    let cycle3 = [1, 3, 9, 7];
+    let cycle4 = [6, 4, 6, 4];
+    let cycle7 = [1, 7, 9, 3];
+    let cycle8 = [6, 8, 4, 2];
+    let cycle9 = [1, 9, 1, 9];
+    switch (x) {
+        case 1 :
+            return 1;
+        case 2 :
+            return cycle2[pow];
+        case 3 :
+            return cycle3[pow];
+        case 4 :
+            return cycle4[pow];
+        case 5 :
+            return 5;
+        case 6 :
+            return 6;
+        case 7 :
+            return cycle7[pow];
+        case 8 :
+            return cycle8[pow];
+        case 9 :
+            return cycle9[pow];
+        default :
+            return 0;
+    }
+    return 0; // fix me
+}
+
+/*  Literally ineffective
+function slideMax (pyramid, id){
+
+    if (pyramid.length > 1) {
+        if (id == 0) {
+            return pyramid.pop()[0] + slideMax(pyramid,0);
+        } else {
+            val + id == pyramid.pop().length-1 ? slideMax(pyramid, id-1) : Math.max(slideMax(pyramid, id), slideMax(pyramid, id-1));
+        }
+    } else return pyramid[0][0];
+}
+function longestSlideDown (pyramid) {
+    let row = pyramid.pop;
+    Math.max(...row.map(mapping));
+    function mapping(val, id){
+        return val + id == row.length-1 ? slideMax(pyramid, id-1) :
+            id == 0 ? slideMax(pyramid, id) : Math.max(slideMax(pyramid, id), slideMax(pyramid, id-1));
+    }
+}
+*/
+
+//4 kyu
+function longestSlideDown (pyramid) {
+    let maxSoFar = [];
+    maxSoFar.push(pyramid[0]);
+    for (let i = 1; i < pyramid.length; i++) {
+        let row = [];
+        row.push(pyramid[i][0]+maxSoFar[i-1][0]);
+        for (let j = 1; j < pyramid[i].length-1; j++) {
+            row.push(pyramid[i][j]+Math.max(maxSoFar[i-1][j],maxSoFar[i-1][j-1]));
+        }
+        row.push(pyramid[i][pyramid[i].length-1] + maxSoFar[i-1][maxSoFar[i-1].length-1]);
+        maxSoFar.push(row);
+    }
+    return Math.max(...maxSoFar[maxSoFar.length-1]);
+}

@@ -242,3 +242,13 @@ function longestSlideDown (pyramid) {
     }
     return Math.max(...maxSoFar[maxSoFar.length-1]);
 }
+
+
+function nextBigger(n){
+    //your code here
+    let n1 = n.split("");
+    if (parseInt(n1.sort().reverse().join()) === n){
+        return -1;
+    }
+
+}

@@ -228,27 +228,78 @@ function longestSlideDown (pyramid) {
 */
 
 //4 kyu
-function longestSlideDown (pyramid) {
+function longestSlideDown(pyramid) {
     let maxSoFar = [];
     maxSoFar.push(pyramid[0]);
     for (let i = 1; i < pyramid.length; i++) {
         let row = [];
-        row.push(pyramid[i][0]+maxSoFar[i-1][0]);
-        for (let j = 1; j < pyramid[i].length-1; j++) {
-            row.push(pyramid[i][j]+Math.max(maxSoFar[i-1][j],maxSoFar[i-1][j-1]));
+        row.push(pyramid[i][0] + maxSoFar[i - 1][0]);
+        for (let j = 1; j < pyramid[i].length - 1; j++) {
+            row.push(pyramid[i][j] + Math.max(maxSoFar[i - 1][j], maxSoFar[i - 1][j - 1]));
         }
-        row.push(pyramid[i][pyramid[i].length-1] + maxSoFar[i-1][maxSoFar[i-1].length-1]);
+        row.push(pyramid[i][pyramid[i].length - 1] + maxSoFar[i - 1][maxSoFar[i - 1].length - 1]);
         maxSoFar.push(row);
     }
-    return Math.max(...maxSoFar[maxSoFar.length-1]);
+    return Math.max(...maxSoFar[maxSoFar.length - 1]);
 }
 
 
-function nextBigger(n){
-    //your code here
-    let n1 = n.split("");
-    if (parseInt(n1.sort().reverse().join()) === n){
+//4kyu
+function nextBigger(n) {
+    //handles 1-digit and 2-digit numbers
+    if (n < 100) {
+        return n > 10 && n % 10 > n / 10 ? n % 10 * 10 + Math.floor(n/10): -1;
+    }
+    //checks if input is maximal possible value by sorting all digits in descending order
+    let init = n;
+    n = parseInt(String(n).split('').sort().reverse().join(''));
+    if (n === init) {
         return -1;
     }
-
+    n = String(init).split('');
+    n.reverse()
+    //init - initial input; n - initial input as string digit array in reversed order;
+    //order of numbers is reversed for clearer code
+    for (let i = 1; i < n.length; i++) {
+        //checks if last i-1 digits of input form max possible number out of these digits
+        //"maximum trail". to find "trail start" at position i
+        if (n[i] >= n[i-1]){
+            continue;
+        }
+        //finds lowest available digit in "maximum trail" i.e.
+        //lowest digit in trail that is higher than trail start.
+        //Then swaps them ("start" and found digit)
+        let swapVal = n.slice(0,i).reduce((res, c) =>{
+            return c > n[i] && c < res ? c: res;}, n[i-1]);
+        [n[i], n[n.indexOf(swapVal)]] = [n[n.indexOf(swapVal)], n[i]];
+        //sorts last digits to make "minimum trail" out of "maximum tail"
+        n.splice(0, i, ...n.slice(0,i).sort().reverse());
+        return parseInt(n.reverse().join(""));
+    }
 }
+
+//answer generator for testcases from previous problem
+function nextSol(n) {
+    n = n.toString().split("");
+    let temp = [], i = n.length-1;
+
+    while (i && n[i-1] >= n[i]) {
+        temp.push(n[i--])
+    };
+
+    temp.push(n[i--]);
+
+    if (i === -1)
+        return i;
+
+    let top=n[i], j=+top+1;
+    while (temp.indexOf(""+j) < 0) j++;
+    j=""+j;
+    temp.splice(temp.indexOf(j),1);
+    temp.push(top);
+    temp.sort();
+    temp.unshift(j);
+    return +(n.slice(0,i).concat(temp).join(""));
+}
+
+
